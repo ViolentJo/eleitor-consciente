@@ -3,7 +3,6 @@ import { useState } from "react";
 export default function EleitorConsciente() {
   const perguntas = [
     // AUTORIDADE & ESTRUTURA DO ESTADO
-    { pergunta: "Que ideologia defende a centralização do poder num Estado forte, como forma de manter a ordem e autoridade nacional?", correta: "Autoritarismo" },
     { pergunta: "Qual destas correntes acredita que a proteção dos valores cristãos deve orientar a política pública?", correta: "Democracia Cristã" },
     { pergunta: "Que corrente valoriza a tradição, a estabilidade social e o respeito pelas instituições familiares e religiosas?", correta: "Conservadorismo" },
 
@@ -16,7 +15,7 @@ export default function EleitorConsciente() {
     // SOCIEDADE & IDENTIDADE
     { pergunta: "Qual destas ideologias defende que a justiça social deve centrar-se na correção de desigualdades ligadas à identidade (raça, género, orientação sexual)?", correta: "Wokismo" },
 
-    // AMBIENTE & SUSTENTABILIDADE (NO FIM)
+    // AMBIENTE & SUSTENTABILIDADE
     { pergunta: "Qual destas ideologias combina preocupações ambientais com justiça social, defendendo a transição ecológica e equidade?", correta: "Eco-socialismo" },
     { pergunta: "Qual destas correntes considera que o crescimento económico deve ser limitado ou revertido em favor da preservação do planeta?", correta: "Ambientalismo radical" }
   ];
@@ -41,17 +40,22 @@ export default function EleitorConsciente() {
     (resposta, i) => resposta === perguntas[i].correta
   ).length;
 
-  const opcoesUnicas = [
-    "Ambientalismo radical",
-    "Autoritarismo",
+  const esquerda = [
     "Comunismo",
-    "Conservadorismo",
-    "Democracia Cristã",
-    "Eco-socialismo",
-    "Liberalismo",
-    "Socialismo democrático",
     "Socialismo radical",
-    "Wokismo"
+    "Socialismo democrático",
+    "Eco-socialismo",
+    "Wokismo",
+    "Ambientalismo radical",
+  ];
+
+  const centro = [
+    "Liberalismo",
+    "Democracia Cristã",
+  ];
+
+  const direita = [
+    "Conservadorismo",
   ];
 
   return (
@@ -59,42 +63,30 @@ export default function EleitorConsciente() {
       <h1 className="text-4xl font-bold mb-4 text-center">Eleitor Consciente</h1>
 
       {passo < perguntas.length ? (
-        <div className="max-w-xl w-full">
-          <p className="text-xl font-semibold mb-4">{perguntas[passo].pergunta}</p>
-          <div className="space-y-2">
-            {opcoesUnicas.map((opcao, index) => {
-              const correta = perguntas[passo].correta;
-              const foiRespondida = respostaSelecionada !== null;
-              const corBotao =
-                !foiRespondida
-                  ? "bg-blue-600 hover:bg-blue-700"
-                  : opcao === correta
-                  ? "bg-green-600"
-                  : opcao === respostaSelecionada
-                  ? "bg-red-600"
-                  : "bg-gray-300";
-
-              return (
-                <button
-                  key={index}
-                  onClick={() => responder(opcao)}
-                  disabled={foiRespondida}
-                  className={`w-full text-white py-2 px-4 rounded-2xl shadow ${corBotao}`}
-                >
-                  {opcao}
-                </button>
-              );
-            })}
+        <div className="max-w-4xl w-full">
+          <p className="text-xl font-semibold mb-6">{perguntas[passo].pergunta}</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+            <div>
+              <h3 className="font-bold text-red-600 mb-2">Esquerda</h3>
+              {esquerda.map((opcao, index) => renderOpcao(opcao, index))}
+            </div>
+            <div>
+              <h3 className="font-bold text-yellow-600 mb-2">Centro</h3>
+              {centro.map((opcao, index) => renderOpcao(opcao, index + 10))}
+            </div>
+            <div>
+              <h3 className="font-bold text-blue-600 mb-2">Direita</h3>
+              {direita.map((opcao, index) => renderOpcao(opcao, index + 20))}
+            </div>
           </div>
 
           {respostaSelecionada && (
-            <div className="mt-4 text-center">
+            <div className="mt-6 text-center">
               {respostaSelecionada === perguntas[passo].correta ? (
                 <p className="text-green-600 font-semibold">Certo! ✅</p>
               ) : (
                 <p className="text-red-600 font-semibold">
-                  Errado. A resposta correta era:{" "}
-                  <span className="underline">{perguntas[passo].correta}</span>
+                  Errado. A resposta correta era: <span className="underline">{perguntas[passo].correta}</span>
                 </p>
               )}
               <button
@@ -129,4 +121,28 @@ export default function EleitorConsciente() {
       </footer>
     </div>
   );
+
+  function renderOpcao(opcao, index) {
+    const correta = perguntas[passo].correta;
+    const foiRespondida = respostaSelecionada !== null;
+    const corBotao =
+      !foiRespondida
+        ? "bg-blue-600 hover:bg-blue-700"
+        : opcao === correta
+        ? "bg-green-600"
+        : opcao === respostaSelecionada
+        ? "bg-red-600"
+        : "bg-gray-300";
+
+    return (
+      <button
+        key={index}
+        onClick={() => responder(opcao)}
+        disabled={foiRespondida}
+        className={`w-full text-white py-2 px-4 mb-2 rounded-2xl shadow ${corBotao}`}
+      >
+        {opcao}
+      </button>
+    );
+  }
 }
