@@ -2,36 +2,23 @@ import { useState } from "react";
 
 export default function EleitorConsciente() {
   const perguntas = [
-    { pergunta: "Qual destas correntes valoriza mais a liberdade individual e a redução do papel do Estado na economia?", correta: "Liberalismo clássico" },
-    { pergunta: "Que corrente defende a abolição do Estado, das hierarquias e da propriedade privada como caminho para a liberdade plena?", correta: "Anarquismo" },
-    { pergunta: "Qual destas correntes valoriza a estabilidade social, a tradição e o respeito por instituições como a família e a religião?", correta: "Conservadorismo" },
-    { pergunta: "Que corrente sustenta que a justiça social deve ser alcançada através da redistribuição de riqueza pelo Estado?", correta: "Socialismo democrático" },
-    { pergunta: "Qual destas ideologias defende que o mérito individual deve determinar o sucesso económico e social?", correta: "Liberalismo" },
-    { pergunta: "Que corrente ideológica defende o multiculturalismo, os direitos identitários e o combate a todas as formas de opressão social?", correta: "Wokismo" },
-    { pergunta: "Qual destas correntes acredita que o Estado deve proteger os valores cristãos na política e na sociedade?", correta: "Democracia Cristã" },
-    { pergunta: "Qual destas ideologias considera o Estado forte e centralizado como essencial para manter a ordem e a unidade nacional?", correta: "Autoritarismo" },
-    { pergunta: "Que ideologia considera o ambiente e os direitos dos animais mais importantes que o crescimento económico?", correta: "Ambientalismo radical" },
-    { pergunta: "Qual destas ideologias recusa a existência de classes sociais e defende uma sociedade igualitária sem propriedade privada?", correta: "Comunismo" },
-    { pergunta: "Que ideologia considera que o mercado, quando livre, é o melhor regulador da economia e das relações sociais?", correta: "Liberalismo clássico" },
-    { pergunta: "Qual destas ideologias rejeita completamente qualquer forma de autoridade, incluindo o Estado e a polícia?", correta: "Anarquismo" },
-    { pergunta: "Qual destas ideologias considera a desigualdade social como uma consequência inevitável da liberdade individual?", correta: "Liberalismo" },
-    { pergunta: "Que corrente acredita que a propriedade privada dos meios de produção deve ser substituída por propriedade coletiva?", correta: "Comunismo" },
-    { pergunta: "Qual destas correntes dá prioridade à cultura e valores nacionais sobre a globalização?", correta: "Nacionalismo conservador" },
-    { pergunta: "Que ideologia vê o Estado como instrumento temporário para alcançar a abolição total das classes sociais?", correta: "Marxismo-leninismo" },
-    { pergunta: "Que corrente valoriza a tradição religiosa e defende a sua presença na vida pública e nas leis?", correta: "Democracia Cristã" },
-    { pergunta: "Qual destas correntes considera que o progresso tecnológico deve ser desacelerado para proteger o planeta?", correta: "Ambientalismo radical" },
-    { pergunta: "Qual destas ideologias defende que a justiça social deve focar-se sobretudo nas minorias identitárias?", correta: "Wokismo" },
-    { pergunta: "Qual destas correntes aceita o autoritarismo como meio necessário para manter a unidade nacional?", correta: "Fascismo" },
-    { pergunta: "Que ideologia defende a igualdade absoluta como objetivo central, mesmo que para isso haja perda de liberdade individual?", correta: "Socialismo radical" },
-    { pergunta: "Qual destas correntes aceita a desigualdade como natural, desde que exista igualdade perante a lei?", correta: "Liberalismo clássico" },
-    { pergunta: "Qual destas ideologias acredita que o bem-estar humano deve ser subordinado à preservação dos ecossistemas?", correta: "Ecocentrismo" },
-    { pergunta: "Que ideologia rejeita a existência de género como construção social e defende o fim das categorias binárias?", correta: "Wokismo" },
-    { pergunta: "Qual destas correntes vê o multiculturalismo como ameaça à identidade nacional?", correta: "Nacionalismo conservador" },
-    { pergunta: "Qual destas ideologias defende que a liberdade económica só é possível com igualdade de oportunidades garantida pelo Estado?", correta: "Liberalismo social" },
-    { pergunta: "Que corrente defende que a ordem social deve ser mantida através de autoridade firme e disciplina cívica?", correta: "Conservadorismo autoritário" },
-    { pergunta: "Qual destas correntes considera a democracia liberal uma ilusão e propõe estruturas diretas e horizontais?", correta: "Anarquismo" },
-    { pergunta: "Qual destas ideologias é contra o conceito de meritocracia e defende redistribuição total de rendimentos?", correta: "Comunismo" },
-    { pergunta: "Que corrente valoriza a continuidade cultural, a herança histórica e a soberania territorial como pilares da nação?", correta: "Conservadorismo" }
+    // AUTORIDADE & ESTRUTURA DO ESTADO
+    { pergunta: "Que ideologia defende a centralização do poder num Estado forte, como forma de manter a ordem e autoridade nacional?", correta: "Autoritarismo" },
+    { pergunta: "Qual destas correntes acredita que a proteção dos valores cristãos deve orientar a política pública?", correta: "Democracia Cristã" },
+    { pergunta: "Que corrente valoriza a tradição, a estabilidade social e o respeito pelas instituições familiares e religiosas?", correta: "Conservadorismo" },
+
+    // ECONOMIA & PROPRIEDADE
+    { pergunta: "Qual destas correntes valoriza mais a liberdade individual e o funcionamento do mercado com mínima intervenção do Estado?", correta: "Liberalismo" },
+    { pergunta: "Qual destas ideologias defende que o progresso social deve ser alcançado através de reformas democráticas e redistribuição de riqueza?", correta: "Socialismo democrático" },
+    { pergunta: "Qual destas ideologias propõe mudanças profundas na estrutura económica e social, mesmo que isso implique restrições temporárias à liberdade individual?", correta: "Socialismo radical" },
+    { pergunta: "Que ideologia defende uma sociedade sem classes através da propriedade coletiva dos meios de produção?", correta: "Comunismo" },
+
+    // SOCIEDADE & IDENTIDADE
+    { pergunta: "Qual destas ideologias defende que a justiça social deve centrar-se na correção de desigualdades ligadas à identidade (raça, género, orientação sexual)?", correta: "Wokismo" },
+
+    // AMBIENTE & SUSTENTABILIDADE (NO FIM)
+    { pergunta: "Qual destas ideologias combina preocupações ambientais com justiça social, defendendo a transição ecológica e equidade?", correta: "Eco-socialismo" },
+    { pergunta: "Qual destas correntes considera que o crescimento económico deve ser limitado ou revertido em favor da preservação do planeta?", correta: "Ambientalismo radical" }
   ];
 
   const [passo, setPasso] = useState(0);
@@ -54,7 +41,18 @@ export default function EleitorConsciente() {
     (resposta, i) => resposta === perguntas[i].correta
   ).length;
 
-  const opcoesUnicas = [...new Set(perguntas.map((p) => p.correta))].sort();
+  const opcoesUnicas = [
+    "Ambientalismo radical",
+    "Autoritarismo",
+    "Comunismo",
+    "Conservadorismo",
+    "Democracia Cristã",
+    "Eco-socialismo",
+    "Liberalismo",
+    "Socialismo democrático",
+    "Socialismo radical",
+    "Wokismo"
+  ];
 
   return (
     <div className="min-h-screen bg-white text-gray-900 p-6 flex flex-col items-center">
