@@ -36,10 +36,18 @@ export default function EleitorConsciente() {
 
   const [passo, setPasso] = useState(0);
   const [respostas, setRespostas] = useState([]);
+  const [respostaSelecionada, setRespostaSelecionada] = useState(null);
 
   const responder = (resposta) => {
-    setRespostas([...respostas, resposta]);
+    if (respostaSelecionada === null) {
+      setRespostaSelecionada(resposta);
+      setRespostas([...respostas, resposta]);
+    }
+  };
+
+  const proxima = () => {
     setPasso(passo + 1);
+    setRespostaSelecionada(null);
   };
 
   const acertos = respostas.filter(
@@ -56,16 +64,49 @@ export default function EleitorConsciente() {
         <div className="max-w-xl w-full">
           <p className="text-xl font-semibold mb-4">{perguntas[passo].pergunta}</p>
           <div className="space-y-2">
-            {opcoesUnicas.map((opcao, index) => (
-              <button
-                key={index}
-                onClick={() => responder(opcao)}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-2xl shadow"
-              >
-                {opcao}
-              </button>
-            ))}
+            {opcoesUnicas.map((opcao, index) => {
+              const correta = perguntas[passo].correta;
+              const foiRespondida = respostaSelecionada !== null;
+              const corBotao =
+                !foiRespondida
+                  ? "bg-blue-600 hover:bg-blue-700"
+                  : opcao === correta
+                  ? "bg-green-600"
+                  : opcao === respostaSelecionada
+                  ? "bg-red-600"
+                  : "bg-gray-300";
+
+              return (
+                <button
+                  key={index}
+                  onClick={() => responder(opcao)}
+                  disabled={foiRespondida}
+                  className={`w-full text-white py-2 px-4 rounded-2xl shadow ${corBotao}`}
+                >
+                  {opcao}
+                </button>
+              );
+            })}
           </div>
+
+          {respostaSelecionada && (
+            <div className="mt-4 text-center">
+              {respostaSelecionada === perguntas[passo].correta ? (
+                <p className="text-green-600 font-semibold">Certo! ✅</p>
+              ) : (
+                <p className="text-red-600 font-semibold">
+                  Errado. A resposta correta era:{" "}
+                  <span className="underline">{perguntas[passo].correta}</span>
+                </p>
+              )}
+              <button
+                onClick={proxima}
+                className="mt-4 bg-black hover:bg-gray-800 text-white py-2 px-4 rounded-full"
+              >
+                Próxima pergunta →
+              </button>
+            </div>
+          )}
         </div>
       ) : (
         <div className="text-center">
