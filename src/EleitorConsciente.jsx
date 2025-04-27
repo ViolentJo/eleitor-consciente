@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function EleitorConsciente() {
-  const perguntas = [
+  const perguntasOriginais = [
     { pergunta: "Qual destas correntes acredita que a proteção dos valores cristãos deve orientar a política pública?", correta: "Democracia Cristã" },
     { pergunta: "Que corrente valoriza a tradição, a estabilidade social e o respeito pelas instituições familiares e religiosas?", correta: "Conservadorismo" },
     { pergunta: "Qual destas correntes valoriza mais a liberdade individual e o funcionamento do mercado com mínima intervenção do Estado?", correta: "Liberalismo" },
@@ -19,6 +19,8 @@ export default function EleitorConsciente() {
     { pergunta: "Qual destas ideologias combina a luta ambiental com críticas ao capitalismo como causa da crise ecológica?", correta: "Eco-socialismo" }
   ];
 
+  const [introducao, setIntroducao] = useState(true);
+  const [perguntas, setPerguntas] = useState([]);
   const [passo, setPasso] = useState(0);
   const [respostas, setRespostas] = useState([]);
   const [respostaSelecionada, setRespostaSelecionada] = useState(null);
@@ -49,22 +51,6 @@ export default function EleitorConsciente() {
     "És um bom exemplo para o teu círculo. Agora convence os outros a estudar também."
   ];
 
-  const responder = (resposta) => {
-    if (respostaSelecionada === null) {
-      setRespostaSelecionada(resposta);
-      setRespostas([...respostas, resposta]);
-    }
-  };
-
-  const proxima = () => {
-    setPasso(passo + 1);
-    setRespostaSelecionada(null);
-  };
-
-  const acertos = respostas.filter(
-    (resposta, i) => resposta === perguntas[i].correta
-  ).length;
-
   const esquerda = [
     "Comunismo",
     "Socialismo radical",
@@ -83,8 +69,33 @@ export default function EleitorConsciente() {
     "Conservadorismo",
   ];
 
-  const mensagemFinalFalha = mensagensFalha[Math.floor(Math.random() * mensagensFalha.length)];
-  const mensagemFinalSucesso = mensagensSucesso[Math.floor(Math.random() * mensagensSucesso.length)];
+  function baralhar(array) {
+    return array.sort(() => Math.random() - 0.5);
+  }
+
+  function comecarTeste() {
+    setPerguntas(baralhar([...perguntasOriginais]));
+    setIntroducao(false);
+    setPasso(0);
+    setRespostas([]);
+    setRespostaSelecionada(null);
+  }
+
+  const responder = (resposta) => {
+    if (respostaSelecionada === null) {
+      setRespostaSelecionada(resposta);
+      setRespostas([...respostas, resposta]);
+    }
+  };
+
+  const proxima = () => {
+    setPasso(passo + 1);
+    setRespostaSelecionada(null);
+  };
+
+  const acertos = respostas.filter(
+    (resposta, i) => resposta === perguntas[i].correta
+  ).length;
 
   function getTituloPerfil() {
     if (acertos <= 3) return { titulo: "Perigo democrático", cor: "text-red-700" };
@@ -95,6 +106,45 @@ export default function EleitorConsciente() {
   }
 
   const { titulo, cor } = getTituloPerfil();
+
+  if (introducao) {
+    return (
+      <div className="min-h-screen bg-white text-gray-900 p-6 flex flex-col items-center justify-center">
+        <div className="max-w-3xl">
+          <h1 className="text-4xl font-bold mb-6 text-center">Eleitor Consciente</h1>
+          <p className="mb-4">
+            <em>“A punição dos bons que não se interessam pela política é serem governados pelos maus.”</em> — Platão
+          </p>
+          <p className="mb-4">
+            A política não é um espetáculo. Não é um jogo de clubes nem um passatempo para distraídos.
+          </p>
+          <p className="mb-4">
+            <strong>Votar não é um ato de impulso, nem um favor a partidos.</strong> É uma decisão que molda o futuro de milhões de pessoas.
+          </p>
+          <p className="mb-4">
+            Se votares sem saber o que defendes, não és neutro: estás a abrir caminho para a tirania, a injustiça e a ignorância.
+          </p>
+          <p className="mb-4">
+            <em>“A diferença entre uma democracia e uma ditadura é que numa democracia primeiro votamos e depois obedecemos; numa ditadura, não precisamos votar.”</em> — Thomas Jefferson
+          </p>
+          <p className="mb-4">
+            📚 <strong>Não é vergonha estudar. Vergonha é votar na ignorância.</strong>
+          </p>
+          <p className="mb-8">
+            <strong>Se não sabes o que estás a fazer, faz um favor a toda a gente e não sejas parte do problema.</strong> Se tens dúvidas, vai estudar antes de votar.
+          </p>
+          <div className="text-center">
+            <button
+              onClick={comecarTeste}
+              className="bg-black hover:bg-gray-800 text-white py-3 px-6 rounded-full text-lg"
+            >
+              Começar Teste
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white text-gray-900 p-6 flex flex-col items-center">
@@ -185,3 +235,4 @@ export default function EleitorConsciente() {
     );
   }
 }
+
