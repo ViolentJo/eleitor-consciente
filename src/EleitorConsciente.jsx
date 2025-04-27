@@ -2,27 +2,52 @@ import { useState } from "react";
 
 export default function EleitorConsciente() {
   const perguntas = [
-    // AUTORIDADE & ESTRUTURA DO ESTADO
     { pergunta: "Qual destas correntes acredita que a proteção dos valores cristãos deve orientar a política pública?", correta: "Democracia Cristã" },
     { pergunta: "Que corrente valoriza a tradição, a estabilidade social e o respeito pelas instituições familiares e religiosas?", correta: "Conservadorismo" },
-
-    // ECONOMIA & PROPRIEDADE
     { pergunta: "Qual destas correntes valoriza mais a liberdade individual e o funcionamento do mercado com mínima intervenção do Estado?", correta: "Liberalismo" },
     { pergunta: "Qual destas ideologias defende que o progresso social deve ser alcançado através de reformas democráticas e redistribuição de riqueza?", correta: "Socialismo democrático" },
     { pergunta: "Qual destas ideologias propõe mudanças profundas na estrutura económica e social, mesmo que isso implique restrições temporárias à liberdade individual?", correta: "Socialismo radical" },
     { pergunta: "Que ideologia defende uma sociedade sem classes através da propriedade coletiva dos meios de produção?", correta: "Comunismo" },
-
-    // SOCIEDADE & IDENTIDADE
-    { pergunta: "Qual destas ideologias defende que a justiça social deve centrar-se na correção de desigualdades ligadas à identidade (raça, género, orientação sexual)?", correta: "Wokismo" },
-
-    // AMBIENTE & SUSTENTABILIDADE
+    { pergunta: "Qual destas ideologias defende que a justiça social deve centrar-se na correção de desigualdades ligadas à identidade (raça, género, orientação sexual)?", correta: "Progressismo" },
     { pergunta: "Qual destas ideologias combina preocupações ambientais com justiça social, defendendo a transição ecológica e equidade?", correta: "Eco-socialismo" },
-    { pergunta: "Qual destas correntes considera que o crescimento económico deve ser limitado ou revertido em favor da preservação do planeta?", correta: "Ambientalismo radical" }
+    { pergunta: "Qual destas correntes considera que o crescimento económico deve ser limitado ou revertido em favor da preservação do planeta?", correta: "Ambientalismo radical" },
+    { pergunta: "Qual destas ideologias valoriza a ordem social e a manutenção de hierarquias tradicionais?", correta: "Conservadorismo" },
+    { pergunta: "Qual destas correntes defende uma transição gradual para uma sociedade mais igualitária sem recurso à revolução?", correta: "Socialismo democrático" },
+    { pergunta: "Que ideologia considera que a intervenção do Estado deve ser mínima, confiando no mercado para organizar a economia?", correta: "Liberalismo" },
+    { pergunta: "Qual destas correntes procura eliminar todas as hierarquias sociais através da igualdade económica extrema?", correta: "Socialismo radical" },
+    { pergunta: "Que ideologia moderna é associada à defesa ativa de minorias raciais, de género e sexuais nas políticas públicas?", correta: "Progressismo" },
+    { pergunta: "Qual destas ideologias combina a luta ambiental com críticas ao capitalismo como causa da crise ecológica?", correta: "Eco-socialismo" }
   ];
 
   const [passo, setPasso] = useState(0);
   const [respostas, setRespostas] = useState([]);
   const [respostaSelecionada, setRespostaSelecionada] = useState(null);
+
+  const mensagensFalha = [
+    "A tua ignorância é perigosa para a democracia.",
+    "Votar sem saber é como conduzir de olhos fechados. E tu já ias em contramão.",
+    "Estás a um passo de votar num tirano. Vai estudar antes que seja tarde.",
+    "Com este nível, só devias votar em concursos de TV — e mesmo assim com supervisão.",
+    "Isto não é uma opinião mal formada. É desinformação ativa. E mata democracias.",
+    "A tua cabeça está vazia e o boletim de voto cheio. Isso devia assustar toda a gente.",
+    "Confundes ideologias básicas e provavelmente votas por influência ou impulso.",
+    "O teu grau de literacia política é uma ameaça pública.",
+    "Se não sabes distinguir socialismo de liberalismo, não devias decidir o futuro do país.",
+    "Falhaste mais do que acertaste — e isso diz muito. Mas ainda vais a tempo de aprender."
+  ];
+
+  const mensagensSucesso = [
+    "Estás apto para votar. És um cidadão exemplar, informado e consciente.",
+    "Parabéns. Mostraste que a política não te passa ao lado — és parte da solução.",
+    "Tu não votas por impulso. Votas com cabeça. E isso vale ouro.",
+    "O teu voto tem peso porque vem de alguém que pensa. Democracia agradece.",
+    "És o eleitor que todos os países gostavam de ter.",
+    "Mostraste literacia política acima da média. Já merecias um lugar na comissão eleitoral.",
+    "Sabes o que defendes, sabes o que rejeitas. És tudo o que um eleitor devia ser.",
+    "A tua consciência política é como o teu voto: poderosa.",
+    "Não guardes isto para ti. Democracia precisa de mais gente como tu.",
+    "És um bom exemplo para o teu círculo. Agora convence os outros a estudar também."
+  ];
 
   const responder = (resposta) => {
     if (respostaSelecionada === null) {
@@ -45,7 +70,7 @@ export default function EleitorConsciente() {
     "Socialismo radical",
     "Socialismo democrático",
     "Eco-socialismo",
-    "Wokismo",
+    "Progressismo",
     "Ambientalismo radical",
   ];
 
@@ -57,6 +82,19 @@ export default function EleitorConsciente() {
   const direita = [
     "Conservadorismo",
   ];
+
+  const mensagemFinalFalha = mensagensFalha[Math.floor(Math.random() * mensagensFalha.length)];
+  const mensagemFinalSucesso = mensagensSucesso[Math.floor(Math.random() * mensagensSucesso.length)];
+
+  function getTituloPerfil() {
+    if (acertos <= 3) return { titulo: "Perigo democrático", cor: "text-red-700" };
+    if (acertos <= 5) return { titulo: "Votante em risco", cor: "text-orange-500" };
+    if (acertos <= 7) return { titulo: "Eleitor funcional", cor: "text-yellow-500" };
+    if (acertos <= 9) return { titulo: "Cidadão consciente", cor: "text-green-500" };
+    return { titulo: "Exemplo cívico nacional", cor: "text-green-700" };
+  }
+
+  const { titulo, cor } = getTituloPerfil();
 
   return (
     <div className="min-h-screen bg-white text-gray-900 p-6 flex flex-col items-center">
@@ -101,16 +139,17 @@ export default function EleitorConsciente() {
       ) : (
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">Teste Concluído</h2>
-          <p className="text-lg mb-4">
+          <p className="text-lg mb-1">
             Acertaste {acertos} em {perguntas.length} perguntas.
           </p>
-          {acertos === perguntas.length ? (
+          <p className={`text-xl font-bold mb-4 ${cor}`}>{titulo}</p>
+          {acertos > perguntas.length / 2 ? (
             <p className="text-green-600 font-semibold">
-              Parabéns! És um Eleitor Consciente.
+              {mensagemFinalSucesso}
             </p>
           ) : (
-            <p className="text-yellow-600 font-semibold">
-              Boa tentativa! Explora os nossos recursos para aprender mais.
+            <p className="text-red-600 font-semibold">
+              {mensagemFinalFalha}
             </p>
           )}
         </div>
