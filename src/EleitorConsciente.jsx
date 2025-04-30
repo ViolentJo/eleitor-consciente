@@ -146,11 +146,10 @@ export default function EleitorConsciente() {
     );
   }
 
-  return (
-    <div className="min-h-screen bg-white text-gray-900 p-6 flex flex-col items-center">
-      <h1 className="text-4xl font-bold mb-4 text-center">Eleitor Consciente</h1>
-
-      {passo < perguntas.length ? (
+  if (passo < perguntas.length) {
+    return (
+      <div className="min-h-screen bg-white text-gray-900 p-6 flex flex-col items-center">
+        <h1 className="text-4xl font-bold mb-4 text-center">Eleitor Consciente</h1>
         <div className="max-w-4xl w-full">
           <p className="text-xl font-semibold mb-6">{perguntas[passo].pergunta}</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
@@ -186,25 +185,35 @@ export default function EleitorConsciente() {
             </div>
           )}
         </div>
-      ) : (
-        <div className="text-center">
-          <h2 className="text-2xl font-bold mb-2">Teste Concluído</h2>
-          <p className="text-lg mb-1">
-            Acertaste {acertos} em {perguntas.length} perguntas.
-          </p>
-          <p className={`text-xl font-bold mb-4 ${cor}`}>{titulo}</p>
-          {acertos > perguntas.length / 2 ? (
-            <p className="text-green-600 font-semibold">
-              {mensagemFinalSucesso}
-            </p>
-          ) : (
-            <p className="text-red-600 font-semibold">
-              {mensagemFinalFalha}
-            </p>
-          )}
-        </div>
-      )}
+      </div>
+    );
+  }
 
+  return (
+    <div className="min-h-screen bg-white text-gray-900 p-6 flex flex-col items-center justify-center">
+      <h1 className="text-4xl font-bold mb-4 text-center">Eleitor Consciente</h1>
+      <div className="text-center">
+        <h2 className="text-2xl font-bold mb-2">Teste Concluído</h2>
+        <p className="text-lg mb-1">
+          Acertaste {acertos} em {perguntas.length} perguntas.
+        </p>
+        <p className={`text-xl font-bold mb-4 ${cor}`}>{titulo}</p>
+        {acertos > perguntas.length / 2 ? (
+          <p className="text-green-600 font-semibold">
+            {mensagensSucesso[Math.floor(Math.random() * mensagensSucesso.length)]}
+          </p>
+        ) : (
+          <p className="text-red-600 font-semibold">
+            {mensagensFalha[Math.floor(Math.random() * mensagensFalha.length)]}
+          </p>
+        )}
+        <button
+          onClick={() => setIntroducao(true)}
+          className="mt-8 bg-black hover:bg-gray-800 text-white py-3 px-6 rounded-full text-lg"
+        >
+          Tentar novamente
+        </button>
+      </div>
       <footer className="mt-12 text-sm text-gray-500 text-center">
         Projeto independente por cidadãos que se importam.
       </footer>
@@ -235,4 +244,3 @@ export default function EleitorConsciente() {
     );
   }
 }
-
